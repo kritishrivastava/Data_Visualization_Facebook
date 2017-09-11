@@ -1,0 +1,169 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="https://dc-js.github.io/dc.js/css/dc.css" />
+	<script src="https://dc-js.github.io/dc.js/js/d3.js"></script>
+	<script src="https://dc-js.github.io/dc.js/js/crossfilter.js"></script>
+	<script src="https://dc-js.github.io/dc.js/js/dc.js"></script>
+	<script src="https://rawgit.com/crossfilter/reductio/master/reductio.js"></script>
+	<script src="https://npmcdn.com/universe@latest/universe.js"></script>
+	<script src="./script/colorbrewer.min.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/style.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="https://dc-js.github.io/dc.js/web/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://dc-js.github.io/dc.js/web/css/dc.css"/>  -->
+		
+	<title id="title">Homework2</title>
+</head>
+
+<body>
+
+	<div id="outer-container">
+	<div id="inner-container">
+	<div id="header">
+		<div id="radioButtonsForFileSelection">
+			<text id="chooseHeading">Select Dataset:</text>
+			<form id="datasetForm" style="text-align:center;">
+			<input type="radio" name="file" value="Facebook" checked onChange="readFilename(this);"> Facebook
+			<input type="radio" name="file" value="Wine" onChange="readFilename(this);"> Wine 
+			</form>
+		</div>
+	</div>
+	
+	<div id="reset">
+	<a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+	</div>
+	<div class="content">
+	
+	<div class="graphSection">
+		<div  class="buttons" id="radioButtonsForAxisSelection">
+		<span class="buttonHeading">Select Y Axis:</span><br>
+			<form class="buttonForm">
+			<input type="radio" id="y1" name="yaxis" value="y1" checked onclick="changeAxis(this);"> 
+				 <label for="y1" id="yAxisRadioText1">Comments</label>
+			</input><br>
+			<input type="radio" id="y2" name="yaxis" value="y2" onclick="changeAxis(this);">
+			 <label for="y2" id="yAxisRadioText2">Shares</label>
+			</input>
+			</form>
+		</div>
+		<div class="graph" id="graph3"></div>	<!-- Scatter -->
+		<div id="scatterPlotHeading" class="graphHeading">Scatter Plot: Number of Likes vs Number of Comments for a post</div>
+		<div  id="scatterPlotDescription" class="graphDescription">Description: This graph shows the relation between number of comments/shares with number of likes on a post. 
+		For most posts, the number of likes is significantly more than the number of comments/shares. In general, the number of likes/comments/shares for photos and status as more 
+		as compared to videos and links. The posts of type photos have significant outliers.</div>
+	</div>
+	
+	<div class="graphSection">
+	<div class="buttons" id="radioButtonsForColorSelection">
+			<span id="selectDimensionText" class="buttonHeading">Select Dimension:(Color Change)</span><br>
+			<form class="buttonForm" id="formForColorSelection">
+			<input type="radio" id="z1color" name="zcolor" value="z1color" checked onclick="changeColor(this);"> 
+				 <label for="z1color" id="colorRadioText1">Type of Content</label>
+			</input><br>
+			<input type="radio" id="z2color" name="zcolor" value="z2color" onclick="changeColor(this);">
+			 <label for="z2color" id="colorRadioText2">Paid or Unpaid Advertising</label>
+			</input>
+			</form>
+		</div>
+	<div class="graph"  id="graph2" > </div> <!-- Pie -->
+	<div id="pieChartHeading" class="graphHeading">Pie Chart: Type of Post Content</div>
+	<div id="pieChartDescription"class="graphDescription">Description: It can be observed that most of the posts are of type photos and least of type video. 
+	Also, for majority of the posts, Facebook was not paid for advertising.</div>
+	</div> 
+	
+	<div class="graphSection">
+	<div  class="buttons" id="radioButtonsForxAxisSelection">
+		<span class="buttonHeading">Select X Axis:</span><br>
+		<form class="buttonForm" id="formForxAxisSelectionLineGraph">
+			<input type="radio" id="x1" name="xaxis" value="x1" checked onclick="changeXAxisLineGraph(this);"> 
+				 <label for="x1" id="xAxisRadioText1">Post Month</label>
+			</input><br>
+			<input type="radio" id="x2" name="xaxis" value="x2" onclick="changeXAxisLineGraph(this);">
+			 <label for="x2" id="xAxisRadioText2">Post Hour</label>
+			</input>
+		</form>
+	</div>
+		<div class="graph"  id="graph4"> </div> <!-- Line -->
+		<div id="lineChartHeading" class="graphHeading">Line Chart: Post Month vs Number of posts</div>
+		<div id="lineChartDescription"class="graphDescription">Description: It can be observed that number of the posts put up on the page, steadily increased in the first quarter 
+		of the year. The number of posts that were put up on the page per month almost doubled by the end of the year. Month of October saw maximum posts. Also, most posts are put up late night (after mid-night) 
+		or mid-day (10 am- 1pm) and it significantly decreased during the evening hours.</div>
+	</div>
+	
+	<div class="graphSection">
+	<div class="buttons" id="radioButtonsForAxisSelectionGraph1">
+			<span class="buttonHeading">Select Y Axis:</span><br>
+			<form  class="buttonForm">
+			<input type="radio" id="y11" name="yaxisgraph1" value="y11" checked onclick="changeAxisGraph1(this);"> 
+				 <label for="y11" id="yAxisRadioText1Graph1">Average Lifetime Engaged Users</label>
+			</input><br>
+			<input type="radio" id="y21" name="yaxisgraph1" value="y21" onclick="changeAxisGraph1(this);">
+			 <label for="y21" id="yAxisRadioText2Graph1">Average Lifetime Post Total Impressions</label>
+			</input>
+			</form>
+	</div>
+	<div class="graph" id="graph1"></div> <!-- Bargraph -->
+	<div id="barGraphHeading" class="graphHeading">Bar Graph: Post Weekday vs Average Lifetime Engaged	Users</div>
+	<div id="barGraphDescription" class="graphDescription">Description: This graph shows the trend in the average engaged users and post impressions for different days of the week.
+	On an average, more users engage in the posts on a Wednesday than any other day of the week. 
+	Also, total impressions for a post is highest on Thursdays (mid-week) and decreases on weekends with lowest average impressions on Sundays. 
+	This suggests that in order to get more impressions and user engagement on a post, weekdays should be preferred over weekends.</div>
+	</div>
+	
+	<div id="histogram" class="graphSectionBig">
+		<div class="buttons" id="radioButtonsForAxisSelectionHistogram">
+				<span class="buttonHeading">Select Y Axis:</span><br>
+				<form  class="buttonForm">
+				<input type="radio" id="y1histo" name="yaxishistogram" value="y1" checked onclick="changeAxisHistogram(this);"> 
+					 <label for="y1histo" id="yAxisRadioText1Histogram">Lifetime Post Consumers</label>
+				</input><br>
+				<input type="radio" id="y2histo" name="yaxishistogram" value="y2" onclick="changeAxisHistogram(this);">
+				 <label for="y2histo" id="yAxisRadioText2Graph1">Lifetime Post Consumptions</label>
+				</input>
+				</form>
+		</div>
+	<div class="graph" id="graph6"></div> <!-- Histogram -->
+	<div id="histogramHeading" class="graphHeading">Histogram: Post Hour vs Average Lifetime Post Consumptions</div>
+	<div class="graphDescriptionBig">Description: While the average number of consumers of a post varies significantly over the day, the post consumption average remains
+	almost constant throughout the day and then shoots up around 5-6 pm in the evening. Both, the number of consumers and the post consumption is relatively higher around 4-6 pm, 
+	making it a suitable time for putting up the post. Whereas, 8-9 am in the morning and 7-8 pm (maybe, travelling time to and from work) in the evening have lesser average 
+	consumers as well as post consumption making it the least favorable time for putting up the post.  </div>
+	</div>
+	<div id="heatMap" class="graphSectionBig">
+			<div class="buttons" id="radioButtonsForColorSelectionHeatMap">
+				<span class="buttonHeading">Select Dimension: (Color Change)</span><br>
+				<form  class="buttonForm">
+				<input type="radio" id="color1" name="colorheatmap" value="color1" checked onclick="changeColorHeatmap(this);"> 
+					 <label for="color1" id="colorRadioText1Heatmap">Total Interactions</label>
+				</input><br>
+				<input type="radio" id="color2" name="colorheatmap" value="color2" onclick="changeColorHeatmap(this);">
+				 <label for="color2" id="colorRadioText2Heatmap">Total Reach</label>
+				</input>
+				</form>
+		</div>
+		<div id="yLabel">Post Hour</div>
+		<div class="graph"  id="graph5"> </div> <!-- HeatMap -->
+		<div id="xLabel">Post Month</div>
+		<div class="graph"  id="heatmapkey"> </div> <!-- HeatMapKey -->
+		<div id="heatMapHeading" class="graphHeading">HeatMap: Total Interactions for Month of Post vs Hour of Post</div>
+		<div id="heatMapDescription" class="graphDescriptionBig">
+		Description: The absence of color (white-space) in the upper half of the graph suggests that no posts were posted on the page during that time of the day. 
+		It can be seen that no posts have been put up after 1 pm till mid-night since August. This can be interesting as the histogram (Post Hour vs Average Lifetime Post Consumers/Consumptions) above, shows that the posts put up in the evening (between 4-7 pm) see 
+		higher consumers and post consumption. Total Interactions- During the first half of the year most interactions on the post were around 1pm in the afternoon whereas the second half of the year saw 
+		comparatively more interactions on the posts at 3am and 10am. Month of July saw exceptionally high post interactions at 5 am in the morning suggesting the occurrence of a
+		special event. Total Reach-  It can be observed that some months (like May, September) show relatively lesser post reach than others. Second half of the year, post reach is 
+		higher around 3 am in the morning with November 3 am having the highest post reach ever seen on the page. 1 pm saw more reach during the first half of the year as compared 
+		to the second half. The graph helps in determining which hour is more suitable for putting up a post to increase the reach of the post.
+		</div>
+	</div>
+	</div>	<!--content-->
+	
+	<div id="footer">Kriti Shrivastava | Data Visualization: Interactive Graph Assignment</div>
+	</div>	<!--inner-->
+	</div>	<!--outer-->
+
+	<script src="./script/main.js"></script>
+	
+</body>
+</html>
